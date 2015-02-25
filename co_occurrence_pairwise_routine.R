@@ -1,33 +1,27 @@
 
-###trying it with the total dataset
-
 library(vegan)
 library(reshape)
 
-comm.data<-read.csv("total_order_info.csv")
-comm.data<-comm.data[,-1]
-comm.data.read<-subset(comm.data, reads >= 1407)
 
-#rarified to 1407 here for order
-comm.data<-cbind(comm.data.read[,c(1:4)],rrarefy(comm.data.read[,-c(1:4)],1407))
+# read in your dataset here
+dataset<-read.csv(file.choose())
 
 
-
-trts<-as.vector((unique((comm.data$rep))))
-trts<-trts[-c(4,5)]
+trts<-as.vector(unique(#add the variable determining the treatments here)
 
 
-results<-matrix(nrow=0,ncol=7)
+
+results<-data.frame()
+
 options(warnings=-1)
 
 for(a in 1:length(trts)){
-	#pull the first element from the vector of treatments
-	trt.temp<-trts[a]
-	#subset the dataset for those treatments
-	temp<-subset(comm.data, rep==trt.temp)
 	
-	#in this case the community data started at column 6, so the loop for co-occurrence has to start at that point
-	for(b in 6:(dim(temp)[2]-1)){
+	# replace #treatment# with your actual variable name here that determines treatments
+	temp<-subset(dataset, #treatment#==trts[a])
+	
+	# change #X# to the column where your first variable starts
+	for(b in #X#:(dim(temp)[2]-1)){
 		#every species will be compared to every other species, so there has to be another loop that iterates down the rest of the columns
 		for(c in (b+1):(dim(temp)[2])){
 			
